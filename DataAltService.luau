@@ -13,11 +13,6 @@ OrderedAltMeta.__index = OrderedAltMeta
 --------local
 local DataStoreService = game:GetService("DataStoreService")
 --------export type
-export type DataAltService = {
-	GetDataStore:(self:DataAltService, name:string)->DataAltStore,
-	GetGlobalDataStore:(self:DataAltService, name:string)->GlobalAltStore,
-	GetOrderedDataStore:(self:DataAltService, name:string)->OrderedAltStore,
-}
 export type GlobalAltStore = {
 	Name:string,
 	DataStore:DataStore,
@@ -32,6 +27,11 @@ export type OrderedAltStore = {
 	DataStore:OrderedDataStore,
 	GetSortedAsync:(self:OrderedAltStore, ascending:boolean, pageSize:number, minValue:any, maxValue:any)->DataStorePages,
 } & GlobalAltStore
+export type DataAltService = {
+	GetDataStore:(self:DataAltService, name:string)->DataAltStore,
+	GetGlobalDataStore:(self:DataAltService, name:string)->GlobalAltStore,
+	GetOrderedDataStore:(self:DataAltService, name:string)->OrderedAltStore,
+}
 --------Synchronize
 function DataAltMeta:Synchronize(key:string)
 	local value = self:GetAsync(key)
