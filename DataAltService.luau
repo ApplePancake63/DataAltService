@@ -18,29 +18,20 @@ export type DataAltService = {
 	GetGlobalDataStore:(self:DataAltService, name:string)->GlobalAltStore,
 	GetOrderedDataStore:(self:DataAltService, name:string)->OrderedAltStore,
 }
-export type DataAltStore = {
-	Name:string,
-	DataStore:DataStore,
-	Synchronize:(self:DataAltStore, key:string)->(),
-	GetAsync:(self:DataAltStore, key:string)->...any,
-	SetAsync:(self:DataAltStore, key:string, value:any)->(),
-	UpdateAsync:(self:DataAltStore, key:string, transformFunction:(...any)->...any)->...any,
-}
 export type GlobalAltStore = {
 	Name:string,
-	DataStore:{any},
+	DataStore:DataStore,
 	GetAsync:(self:GlobalAltStore, key:string)->...any,
 	SetAsync:(self:GlobalAltStore, key:string, value:any)->(),
 	UpdateAsync:(self:GlobalAltStore, key:string, transformFunction:(...any)->...any)->...any,
 }
+export type DataAltStore = {
+	Synchronize:(self:DataAltStore, key:string)->()
+} & GlobalAltStore
 export type OrderedAltStore = {
-	Name:string,
 	DataStore:OrderedDataStore,
 	GetSortedAsync:(self:OrderedAltStore, ascending:boolean, pageSize:number, minValue:any, maxValue:any)->DataStorePages,
-	GetAsync:(self:OrderedAltStore, key:string)->...any,
-	SetAsync:(self:OrderedAltStore, key:string, value:any)->(),
-	UpdateAsync:(self:OrderedAltStore, key:string, transformFunction:(...any)->...any)->...any,
-}
+} & GlobalAltStore
 --------Synchronize
 function DataAltMeta:Synchronize(key:string)
 	local value = self:GetAsync(key)
